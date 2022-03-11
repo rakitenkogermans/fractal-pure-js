@@ -6,6 +6,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 downloadBtn.addEventListener('click', downloadTree);
+
+// redraw when window size changed
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -26,17 +28,22 @@ function drawTree(startX, startY, len, angle, branchWidth, color1) {
     ctx.stroke();
 
     if (len < 11) {
+        // when line is too short stop drawing
         ctx.restore();
         return;
     }
 
+    // left
     drawTree(0, -len, len * 0.730, -1, branchWidth);
+
+    // right
     drawTree(0, -len, len * 0.730, 1, branchWidth);
 
     ctx.restore();
 }
 drawTree(canvas.width/2, canvas.height - 100, 200, 0, 3, 'dodgerblue');
 
+// helper function for downloading
 function downloadTree() {
     if (window.navigator.msSaveBlob) {
         window.navigator.msSaveBlob(canvas.msToBloB(), 'binary-fractal-tree.png');
